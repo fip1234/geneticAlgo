@@ -16,6 +16,7 @@ def plot_fitness(generation_list, best_fitness_list, mean_fitness_list,
     plt.legend(fontsize=10)
     plt.grid(True, alpha=0.3)
     plt.savefig(filename, dpi=300, bbox_inches='tight')
+    plt.show()
     print(f"\nGraph saved as '{filename}'")
     plt.close()
 

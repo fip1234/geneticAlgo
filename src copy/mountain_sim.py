@@ -9,6 +9,7 @@ import creature
 import random
 import math
 import time
+import plot
 
 
 #inherit from base simulation class
@@ -145,6 +146,12 @@ if __name__ == "__main__":
     best_creature = None
     best_fitness = 0
 
+    #start
+    generation_list = []
+    best_fitness_list = []
+    mean_fitness_list = []
+    #end
+
 #from test_ga_no_thread.py
     for iteration in range(5):
         #run each creature in sim
@@ -157,7 +164,13 @@ if __name__ == "__main__":
                 for cr in pop.creatures]
         links = [len(cr.get_expanded_links()) 
                 for cr in pop.creatures]
-        
+
+        #start
+        generation_list.append(iteration)
+        best_fitness_list.append(np.max(fits))
+        mean_fitness_list.append(np.mean(fits))
+        #end
+
         print(iteration, "fittest:", np.round(np.max(fits), 3), 
                 "mean:", np.round(np.mean(fits), 3), "mean links", np.round(np.mean(links)), "max links", np.round(np.max(links)))       
         
@@ -198,11 +211,17 @@ if __name__ == "__main__":
                 break
         pop.creatures = new_creatures
 
-                        
+# MOVE PLOTTING HERE - AFTER THE LOOP (NOT INSIDE)
 print("evolution complete! :)")  
 print("best fitness:", best_fitness)
 
-#show best in GUI
+# USE plot (not plot_results) since you imported plot
+plot.plot_fitness(generation_list, best_fitness_list, mean_fitness_list,
+                    filename='src/fitness_evolution.png')
+plot.save_table(generation_list, best_fitness_list, mean_fitness_list,
+                filename='src/results.csv')
+
+# Show best in GUI
 print("\nShowing best creature in GUI...")
 gui_sim = MountainSim(gui=True)
 gui_sim.run_creature(best_creature, 2400, show_gui_time=True)
